@@ -1,0 +1,129 @@
+{% extends 'base_layaout.html' %}
+
+{% block content %}
+<div class="singleEvent">
+    <form  action="/event/update/{{Event.id}}/" method="POST">
+    {% csrf_token %}
+    <div class="card border-primary rounded-0">
+        <div class="card-header p-0">
+        <button type="button" class="btn btn-danger float-right align-middle" id="deleteEvent">Eliminar</button>
+            <div class="bg-info text-white text-center py-2">
+                <h3>{{Event.title}}</h3>
+            </div>
+        </div>
+        <div class="card-body p-3">
+            <!--Body-->
+            <div class="form-group">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-book"></i>
+                            </div>
+                        </div>
+                      
+                        <textarea class="form-control" rows="4" name="eventitle" required placeholder="Resumen de tareas realizadas">{{Event.title}}</textarea>
+                        </input>
+                    </div>
+                </div>
+            <div class="form-group">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+                    </div>
+                     <select class="form-control" id="project" name="project" required>
+                        <option id="0" value="">Selecciona un proyecto</option>
+                        {% for project in projects %}
+                            {%if project.id == selectedproject.id%}
+                                <option class="form-control" value ="{{project.id}}" selected="selected">{{project.name}}</option>
+                            {%else%}
+                                <option class="form-control" value ="{{project.id}}">{{project.name}}</option>
+                            {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+           
+            <div class=" form-row">
+            <div class="col-md-4 col-xs-12">
+            <div class="form-group">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                    </div>
+                    <input class="form-control" type="date" name="bookingdate" value="{{Event.booking_date |date:"Y-m-d"}}" required>
+                    </input>
+                </div>
+                </div>
+                </div>
+           
+              <div class="col-md-4 col-xs-12">
+              <div class="form-group">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-hourglass-start"></i>
+                        </div>
+                    </div>
+                    <input class="form-control" type="time" name="starttime" value="{{Event.start_at | date:"G:i"}}" required>
+                    </input>
+                </div>
+                </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                  <div class="form-group">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-hourglass-end"></i>
+                        </div>
+                    </div>
+                    <input class="form-control" type="time" name="finishtime" value="{{Event.finish_at | date:"G:i"}}" required>
+                    </input>
+                </div>
+            </div>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                    <input class="form-control" type="text" value="{{Event.user}}" readonly> 
+                    </input>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-success btn-lg" type="submit" value="Guardar">
+                <button type="button" class="btn btn-danger btn-lg" id="exitEvent">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>
+    //close button
+    $("#exitEvent").click(function () {
+        var parentURL = document.location.origin;
+        window.location.href = parentURL+"/calendar";
+        });
+     //Delete button
+    $("#deleteEvent").click(function () {
+        var currentUrl = window.location.href;
+        var urlReplace = currentUrl.replace("edit", "delete");
+        window.location.href = urlReplace;
+        });
+</script>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,416 @@
+/***** GENERAL STYLES *****/
+*{
+    margin:0px;
+    padding:0px;
+    font-family: sans-serif, Arial, Helvetica;
+    text-decoration: none;
+}
+
+p, h2, h3, ul{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+ul, ol{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.clearfix{
+    clear:both;
+    float:none;
+}
+
+.date{
+    margin-top: 15px;
+    margin-bottom:10px;
+    display: block;
+    color:gray;
+}
+
+.categorias{
+    margin-top: 15px;
+    margin-bottom:15px;
+    display: block;
+    color:gray;
+}
+
+.content{
+   line-height: 25px;
+}
+
+.alert, .alert-success{
+    padding:20px;
+    background: #1f7e58;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#deleteEvent{
+    margin-top: 10px !important;
+    margin-right: 10px !important;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+/***** NAVBAR *****/
+.navbar-brand img{
+    max-height: 100px;
+}
+
+.navbar-expand-lg .navbar-nav {
+    padding-right: 20px !important;
+}
+
+.navbar-brand {
+    padding-left: 20px !important;
+}
+
+
+/***** CONTENT *****/
+#content{
+    width: 90%;
+    min-height: 930px;
+    margin:0 auto;
+    margin-bottom: 30px;
+    margin-top: 50px;
+    
+}
+
+.box{
+    background: white;
+    width: 100%;
+    min-height: 930px;
+    border: 1px solid #ddd;
+    margin: 0 auto;
+    border-radius: 2px;
+    padding: 25px;
+    margin-top: 150px;
+}
+
+
+.box a{
+    color:#444;
+    transition: all 300ms;
+}
+
+.box a:hover{
+    color:#1f7e58;
+}
+
+.box .image {
+    float: left;
+    padding: 15px;
+}
+
+.box .image img{
+    height: 400px !important;
+}
+
+/***** SINGLE EVENT *****/
+.singleEvent{
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/***** PROJECT *****/
+.project-input-group-text {
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+/***** MANAGER *****/
+
+.first-row-manager{
+   padding-top: 50px; 
+}
+
+.second-row-manager{
+    padding-top: 50px;
+    display: none;
+}
+
+.third-row-manager{
+    padding-top: 50px;
+}
+
+.fourth-row-manager{
+    padding-top: 50px;
+}
+      
+    /***** MANAGER CHART BAR *****/
+
+    #columnchart_material{width: 100%; height: 500px;}
+
+    /***** MANAGER CHECKBOX *****/
+    .custom-checkbox {
+        min-height: 1rem;
+        padding-left: 0;
+        margin-right: 0;
+        cursor: pointer; 
+      }
+        .custom-checkbox .custom-control-indicator {
+          content: "";
+          display: inline-block;
+          position: relative;
+          width: 30px;
+          height: 10px;
+          background-color: #818181;
+          border-radius: 15px;
+          margin-right: 10px;
+          -webkit-transition: background .3s ease;
+          transition: background .3s ease;
+          vertical-align: middle;
+          margin: 0 16px;
+          box-shadow: none; 
+        }
+          .custom-checkbox .custom-control-indicator:after {
+            content: "";
+            position: absolute;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: #f1f1f1;
+            border-radius: 21px;
+            box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+            left: -2px;
+            top: -4px;
+            -webkit-transition: left .3s ease, background .3s ease, box-shadow .1s ease;
+            transition: left .3s ease, background .3s ease, box-shadow .1s ease; 
+          }
+        .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
+          background-color: #84c7c1;
+          background-image: none;
+          box-shadow: none !important; 
+        }
+          .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
+            background-color: #84c7c1;
+            left: 15px; 
+          }
+        .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
+          box-shadow: none !important; 
+        }
+
+    
+/***** DASHBOARD *****/
+.second-row{
+    padding-top: 90px;
+    padding-bottom: 30px;
+}
+    /***** WEATHER BANNER *****/
+    .hours{
+        margin-top:40px;
+    }
+
+    .weathercard {
+        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url("/static/images/weather.jpg");
+        background-size: cover;
+        width: 600px;
+        height: 350px;
+        border-radius: 20px;
+        box-shadow: 0px 8px 16px 4px #9e9e9e;
+        margin-top: 30px;
+        margin-left: 50px;
+        left: 0px;
+    }
+
+    .weatherIcon{
+        float: right;
+        margin-right: -10px;
+        margin-top: 50px;
+        padding:5px;
+    }
+
+    .weatherIcon > img{
+        height: 60px;
+    }
+
+    .weather-country{
+        float: right;
+        margin-right: 40px;
+        margin-top: 15px;
+    }
+
+    .weather-temperature{
+        float: right;
+        margin-right: -120px;
+        margin-top: 50px;
+    }
+
+    .weather-today{
+        bottom: 160px;
+        margin-left: 20px;
+    }
+
+    .weathercard > h2 {
+        color: white;
+    }
+
+    .weathercard > .time-font {
+        font-size: 50px;
+        color: white;
+        margin-left: 20px;
+        margin-top: 200px;
+    }
+
+    .weathercard > .sm-font {
+        font-size: 18px;
+        color: white;
+    }
+
+    .weathercard > .med-font {
+        font-size: 28px;
+        color: white;
+    }
+
+    .weathercard > .large-font {
+        font-size: 60px;
+        color: white;
+        padding:10px;
+    }
+
+    /***** RESUME HOURS BOX *****/
+    .mb-3, .my-3 {
+        box-shadow: 0px 8px 16px 4px #9e9e9e !important;
+    }
+
+    /***** HOURS PRO PROJECT *****/
+    .card-body {
+        box-shadow: 0px 8px 16px 4px #9e9e9e !important;
+    }
+
+    #dashboard_progress_info{
+        padding-left:10px;
+    }
+
+/***** FOOTER *****/
+footer{
+    width:100%;
+    background-color: #1b1e1f;
+    border: 1px solid #333;
+    color: #d1d4d6;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+}
+
+
+/*responsive*/
+@media(max-width:497px) {
+
+    /* WEATHER */
+    .weathercard {
+        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(/static/images/weather.jpg);
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        box-shadow: 0px 8px 16px 4px #9e9e9e;
+        margin-top: 30px;
+        margin-left: 0px;
+    }
+    .weather-country {
+        margin-right: 50px;
+    }
+ 
+    .weathercard > .large-font {
+        font-size: 40px;
+        color: white;
+        padding: 10px;
+    }
+    .weathercard > .time-font {
+        font-size: 30px;
+        color: white;
+        margin-left: 20px;
+        margin-top: 200px;
+    }
+
+    /* CALENDAR    */
+    .fc-next-button{
+        margin-top: -125px !important;
+    }
+
+    .fc-prev-button{
+        margin-top: -50px !important;
+    }
+
+    .fc-direction-ltr .fc-toolbar>*>:not(:first-child) {
+         margin-left: 0em !important; 
+    }
+
+    .fc-myCustomButton-button{
+        max-width: 70px !important;
+    }
+
+    .fc-today-button .fc-button .fc-button-primary{
+        margin-left: 10px !important;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.55em !important;
+        margin: 0;
+    }
+
+    .fc-view-harness
+    {
+        height: 501.481px !important;
+    }
+    
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 300px;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        /* border: 1px solid rgba(0,0,0,.125); */
+        border-radius: .25rem;
+        margin-left: -80px;
+    }
+
+    #managercard {
+        margin-left: -30px;
+    }
+
+  }
+
+
+
+  
+
+  
+
+
+  

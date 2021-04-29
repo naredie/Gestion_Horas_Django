@@ -1,0 +1,278 @@
+{% extends 'base_layaout.html' %}
+{% load static %}
+{% block content %} 
+<div id="dashboard">
+    <h1>{{title}}</h1>
+</div>
+<div class="first-row-manager">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Horas a confirmar de los miembros de tu equipo</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr> 
+                                        <th class="border-bottom">Empleado</th>
+                                        <th class="border-bottom">Email</th>
+                                        <th class="border-bottom">Telefono</th>
+                                        <th class="border-bottom">Horas a aprobar/Mes</th>
+                                        <th class="border-bottom">Aprobar horas mensuales</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hoursUser in hours_to_confirm%}
+                                        <tr class="border-bottom" id="manageruser"> 
+                                                <td class="text-muted align-middle">{{hoursUser.employee.first_name}} {{hoursUser.employee.last_name}}</td>
+                                                <td class="text-muted align-middle">
+                                                        {{hoursUser.employee.email}}
+                                                </td>
+                                                <td class="text-muted align-middle">{{hoursUser.employee.phone_number}}</td>
+                                                <td class="text-muted align-middle">{{hoursUser.hours}} en {{hoursUser.month|date:"F"}}</td>
+                                                <td class="align-middle"><button class="btn btn-primary" id="confirmusermonthhours" 
+                                                onclick="confirm_user_hours({{hoursUser.id}});">Confirmar horas mensuales del empleado</button></td>
+                                            </tr>
+                                    {% endfor%} 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="third-row-manager">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-sm">
+                  <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Proyectos abiertos donde eres Manager</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr class="border-bottom">
+                                        <th >Proyecto</th>
+                                        <th><button type="submit" class="btn btn-primary float-right " id="addproject">Añadir Proyecto nuevo</button></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for project in projects%}
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    <span>{{project.name}}</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Horas mensuales por usuario de tu equipo</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead></thead>
+                                <tbody>
+                                {% for user in users_manager%}
+                                    <tr>
+                                        <div class="charts-data">
+                                            <div>
+                                                <p>{{user.user.first_name}} {{user.user.last_name}}</p>
+                                                <div
+                                                    class="d-flex justify-content-between align-items-center"
+                                                >
+                                                    <div
+                                                        class="progress progress-md flex-grow-1"
+                                                    >
+                                                        <div
+                                                            class="progress-bar bg-inf0"
+                                                            role="progressbar"
+                                                            style="width: {{user.hours_percent}}"
+                                                            aria-valuenow="{{user.hours_percent_number}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <p id="dashboard_progress_info"><strong>{{user.sum_hours}}</strong> de <strong>{{user.stimated_month_hours}}</strong></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fourth-row-manager">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Empleados de tu equipo de trabajo</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr> 
+                                        <th class="border-bottom">Gráficos de usuario</th>
+                                        <th class="border-bottom">Nombre</th>
+                                        <th class="border-bottom">Email</th>
+                                        <th class="border-bottom">Telefono</th>
+                                        <th class="border-bottom">Horas mes actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                      {% for user in users_manager%}
+                                        <tr class="border-bottom" id="manageruser"> 
+                                                 <td>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="checkbox{{user.user.id}}" id="checkbox{{user.user.id}}" onclick="showUserChartbar({{user.user.id}});" />
+                                                        <span class="custom-control-indicator"></span>
+                                                    </label>
+                                                </td>
+                                                <td class="text-muted align-middle">{{user.user.first_name}} {{user.user.last_name}}</td>
+                                                <td class="text-muted align-middle">
+                                                        {{user.user.email}}
+                                                </td>
+                                                <td class="text-muted align-middle">{{user.user.phone_number}}</td>
+                                                <td class="text-muted align-middle">{{user.sum_hours}}</td>
+                                            </tr>
+                                    {% endfor%} 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="second-row-manager" id="second-row-manager">
+    <div class="container-fluid">
+        <div class="row">
+           <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <div id="columnchart_material"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   
+    <script>
+
+        function showUserChartbar(userid){
+            if($('#checkbox' + userid).is(":checked")){
+                //deny click in the anothers checkboxes when user click in one checkbox
+                $(".managercheckbox").prop("disabled", true);
+
+                //allow click in  the current checkbox
+                $('#checkbox' + userid).prop("disabled", false);
+                //cretae chartbar
+                createChartBar(userid);
+                //show the chart bar div
+                $("#second-row-manager").show() 
+            }
+            else{
+                //allow click in all checkboxes 
+                $(".managercheckbox").prop("disabled", false);
+                //hide chartbar div
+                $("#second-row-manager").hide()
+            }
+        }
+
+        
+         function createChartBar(employeeid){
+            //create Chart bar
+            var general_data ={{general_acepted_hours| safe}}
+            var chartbardata = general_data.filter( function(item){return (item.employeeId==employeeid);} );
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawChart);
+            
+            function drawChart() {
+                var dataresult = [];
+                //add user name
+                var headerleyenda = chartbardata[0].employee_name;
+                var headeryear = chartbardata[0].year;
+                //add rest of data
+                for(i = 0;i<=chartbardata.length-1;i++ ){
+                    var month = chartbardata[i].month;
+                    var hours = (chartbardata[i].hours).toString();
+
+                    var list = {month,hours}
+                    dataresult.push(list);
+                }
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Meses');
+                data.addColumn('number', 'Horas');
+              
+                // add each element via forEach loop
+                dataresult.forEach(function(value, index, array){
+                    data.addRow([
+                        value.month,
+                        parseFloat(value.hours)
+                    ]);
+                })
+                
+                var options = {
+                    title: 'Horas confirmadas por mes - ' + headerleyenda,
+                    subtitle: 'Año '+headeryear,
+                    width: '100%',
+                    legend: {position: 'none'}
+                };
+
+                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+                
+            }
+        }
+
+
+        //create project button
+        $("#addproject").click(function () {
+            var currentUrl = window.location.href;
+            if (
+                currentUrl != null &&
+                currentUrl != "undefined" &&
+                currentUrl != ""
+            ) {
+                var urlReplace = currentUrl.replace("manager", "creteproject");
+                window.location.href = urlReplace;
+            }
+        });
+        //confirm user hours
+        function confirm_user_hours(hoursUseId) {
+                var currentUrl = window.location.href;
+                   if (
+                currentUrl != null &&
+                currentUrl != "undefined" &&
+                currentUrl != ""
+                ) {
+                    var url = currentUrl+"confirm/user/hours/"+hoursUseId;
+                    window.location.href = url;
+                }
+            }
+    </script>
+{% endblock %}

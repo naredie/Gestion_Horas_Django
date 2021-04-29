@@ -1,0 +1,337 @@
+{% extends "base_layaout.html" %} 
+{% block content %} 
+<div id="dashboard">
+    <h1>Dashboard</h1>
+</div>
+<div class="first-row">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="weathercard">
+                            <h2 class="weather-country">{{weather.city}}</h2>
+                            <h1 class="weather-temperature large-font">
+                                {{weather.temperature}}&#176;
+                            </h1>
+                            <p class="weatherIcon"><img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" /></p>
+                            <p class="time-font">{{currentHour  | date:"G:i A"}}</p>
+                            <p class="weather-today sm-font">
+                                {{todayDate | date:"D d M Y"}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col hours">
+                <div class="row">
+                    <div class="col">
+                        <div
+                            class="card text-white bg-primary mb-3"
+                            style="max-width: 18rem"
+                            id="managercard"
+                        >
+                            <div class="card-header">Hoy - Horas totales</div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ stats.total_hours_today }}
+                                </h5>
+                                <p class="card-text">
+                                    Total de horas guardadas en el día de hoy
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div
+                            class="card text-white bg-success mb-3"
+                            style="max-width: 18rem"
+                            id="managercard"
+                        >
+                            <div class="card-header">Semana - Horas totales</div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ stats.total_hours_week }}
+                                </h5>
+                                <p class="card-text">
+                                    Total de horas guardadas esta semana
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div
+                            class="card text-white bg-dark mb-3"
+                            style="max-width: 18rem"
+                            id="managercard"
+                        >
+                            <div class="card-header">Mes - Horas totales</div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ stats.total_hours_month }}
+                                </h5>
+                                <p class="card-text">
+                                    Total de horas guardadas este mes
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div
+                            class="card text-white bg-warning mb-3"
+                            style="max-width: 18rem"
+                            id="managercard"
+                        >
+                            <div class="card-header">Semana - Horas que faltan</div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ stats.hours_week_left }}
+                                </h5>
+                                <p class="card-text">
+                                    Horas que faltan para cumplir tu cupo de horas semanales
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="second-row">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Últimas horas de trabajo guardadas</p>
+                        <div class="table">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom">Día</th>
+                                        <th class="border-bottom">Horas</th>
+                                        <th class="border-bottom">Proyecto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for event in events%}
+                                        <tr>
+                                            <td>{{event.event.booking_date|date:"d/m/Y"}}</td>
+                                            <td>
+                                                <p class="">
+                                                    <span class="font-weight-bold"
+                                                        >{{event.worked_hours}}</span
+                                                    >
+                                                </p>
+                                            </td>
+                                            <td class="text-muted">{{event.event.project.name}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Proyectos abiertos</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom">Proyecto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for project in projects%}
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                <span
+                                                    >{{project.project.name}}</span
+                                                >
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    {% endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <p class="card-title font-weight-bold">Horas globales por proyecto</p>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead></thead>
+                                <tbody>
+                                    <tr>
+                                     {% for project in projects%}
+                                        <div class="charts-data">
+                                            <div>
+                                                <p>{{project.project.name}}</p>
+                                                <div
+                                                    class="d-flex justify-content-between align-items-center"
+                                                >
+                                                    <div
+                                                        class="progress progress-md flex-grow-1"
+                                                    >
+                                                        <div
+                                                            class="progress-bar bg-inf0"
+                                                            role="progressbar"
+                                                            style="width: {{project.hours_percent}}"
+                                                            aria-valuenow="{{project.hours_percent_number}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <p id="dashboard_progress_info"><strong>{{project.worked_hours}}</strong> de <strong>{{project.project.stimated_hours}}</strong></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor%}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="third-row">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card" id="managercard">
+                    <div class="card-body">
+                        <div class="row border-bottom">
+                            <div class="col">
+                                <p class="card-title font-weight-bold">Total de horas de {{todayDate|date:"F" }} {{todayDate|date:"Y" }}</p>
+                            </div>
+                            <div class="col">
+                                <p class="card-title font-weight-bold"></p>
+                            </div>
+                            <div class="col">
+                                <div class="float-right">
+                                    <select class="form-control" id="selectmonth" name="selectmonth" onchange="changeMonthData(this)">
+                                     {%if todayDate.month %}
+                                        <option class="form-control" value ="todayDate.month" selected="selected">{{todayDate|date:"F" }}</option>
+                                         <optgroup label="--------------------">
+                                    {%else%}
+                                        <option selected>Selecciona el mes que quieres visualizar</option>
+                                    {%endif%}
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+                            </div>
+                             </br> </br>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr> 
+                                        <th class="border-bottom">Dia</th>
+                                        <th class="border-bottom">Comienzo</th>
+                                        <th class="border-bottom">Final</th>
+                                        <th class="border-bottom">Horas totales</th>
+                                        <th class="border-bottom">Proyecto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for entry in month_entry_hours%}
+                                        <tr class="border-bottom"> 
+                                                <td class="text-muted align-middle">{{entry.event.booking_date}}</td>
+                                                <td class="text-muted align-middle">{{entry.event.start_at}}</td>
+                                                <td class="text-muted align-middle">{{entry.event.finish_at}}</td>
+                                                <td class="text-muted align-middle">{{entry.worked_hours}}</td>
+                                                <td class="text-muted align-middle">{{entry.event.project.name}}</td>
+                                        </tr>
+                                    {%endfor%}
+                                </tbody>
+                                  <tfoot>
+                                  <tr  class="table-info border-bottom"> 
+                                        <th class="border-bottom">Mes</th>
+                                        <th class="border-bottom">Horas totales del mes</th>
+                                        <th class="border-bottom">Horas ya confirmadas</th>
+                                        <th class="border-bottom"></th>
+                                        <th class="border-bottom"></th>
+                                    </tr>
+                                    <tr class="" > 
+                                        <td class="align-middle font-weight-bold">{{todayDate|date:"F" }}</td>
+                                        <td class="align-middle font-weight-bold">{{ sum_total_month_hours }} Horas</td>
+                                        {% if sum_total_month_hours == hours_send_to_confirm and hours_send_to_confirm != '0.0' %}
+                                            <td class="align-middle font-weight-bold">{{hours_send_to_confirm}} Horas</td>
+                                        {% else %}
+                                            <td class="align-middle font-weight-bold text-danger">
+                                                    {{hours_send_to_confirm}} -- Necesitas pedir una revision de horas
+                                            </td>
+                                        {% endif %}
+                                        {%if hours_send_to_manager == False and month_entry_hours|length == 0 %}
+                                            <td class="align-middle"><button type="submit" id="confirmHours" class="btn btn-primary" disabled>Confirmar horas de {{todayDate|date:"F" }} con el manager</button></td>
+                                        {% elif hours_send_to_manager == False and month_entry_hours|length > 0%}
+                                            <td class="align-middle"><button type="submit" id="confirmHours" class="btn btn-primary">Confirmar horas de {{todayDate|date:"F" }} con el manager</button></td>
+                                        {%else%}
+                                            <td class="align-middle"><button type="submit" id="confirmHours" class="btn btn-primary" disabled>Horas de {{todayDate|date:"F" }} ya confirmadas con el manager</button></td>
+                                        {%endif%}
+                                        <td class="align-middle"><button type="submit" id="revisionHours" class="btn btn-danger">Pedir revision de horas del mes de {{todayDate|date:"F" }}</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>
+    //Confirm user hours
+    $("#confirmHours").click(function () {
+        var parentURL = document.location.origin;
+        var customUrl = parentURL+"/confirm/hours/"+{{todayDate.month }}+"/"+{{todayDate.year }}+"/"+{{request.user.id}};
+        window.location.href = customUrl;
+        });
+    //Change Month Data
+    function changeMonthData(selectObject){
+        var month = selectObject.value; 
+        var parentURL = document.location.origin;
+                   if (
+                parentURL != null &&
+                parentURL != "undefined" &&
+                parentURL != ""
+                ) {
+                    var url = parentURL+"/month/"+month;
+                    window.location.href = url;
+                }
+    }
+    //Manager Revision Hours
+    $("#revisionHours").click(function () {
+        var parentURL = document.location.origin;
+        var customUrl = parentURL+"/revision/hours/"+{{todayDate.month }}+"/"+{{todayDate.year }}+"/"+{{request.user.id}};
+        window.location.href = customUrl;
+        });
+</script>
+{% endblock %}

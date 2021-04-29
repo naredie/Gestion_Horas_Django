@@ -1,0 +1,39 @@
+{% extends 'base_layaout.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Empleados</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Es manager</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td scope="row">{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.is_manager }}</td>
+            <td>
+                <ul class="list-inline m-0">
+                    <li class="list-inline-item">
+                        <a href={% url 'user-update' user.id %} class="btn btn-primary btn-sm" role="button">Editar</a>
+                        <a href={% url 'user-delete' user.id %} class="btn btn-danger btn-sm" role="button">Eliminar</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<form action="{% url 'user-add' %}">
+    <input class="btn btn-primary" type="submit" value="Crear nuevo empleado" />
+</form>
+
+{% endblock %}

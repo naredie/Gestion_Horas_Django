@@ -1,0 +1,13 @@
+name: horas-worflow
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker images
+        run: docker-compose build --build-arg UID=$(id -u) --build-arg GID=$(id -g)
+      - name: Test Project
+        run: docker-compose run web invoke test
+      - name: Lint
+        run: docker-compose run web invoke lint.types lint.styles

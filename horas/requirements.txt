@@ -1,0 +1,5 @@
+django~=3.2
+psycopg2~=2.8
+python-dateutil
+requests
+django-crispy-forms~=1.11

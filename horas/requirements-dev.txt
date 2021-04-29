@@ -1,0 +1,6 @@
+-r requirements.txt
+black
+invoke
+mypy
+pylint<2.8.0
+pylint-django

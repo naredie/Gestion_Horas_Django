@@ -1,0 +1,88 @@
+
+{% extends 'base_layaout.html' %}
+{% load static %}
+
+{% block head_content %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    </br>
+    <div class="calendar" id="calendar">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js" integrity="sha256-ekrJn2FeZaiUFq99QswpQCUTME/HxaDfX7R8INzKJGE=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js" integrity="sha256-6TW9hevn9VV+Dk6OtclSzIjH05B6f2WWhJ/PQgy7m7s=" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        var calendarUI = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarUI,{
+            {% comment %} Make days number clickable {% endcomment %}
+            navLinks: true,
+            {% comment %} Make custom funcionality when a day number was clicked {% endcomment %}
+            navLinkDayClick: function(date, jsEvent) {
+                    var dateformat = date.getFullYear()+'/' + (date.getMonth()+1) + '/'+date.getDate();;
+                    var parentURL = document.location.origin;
+                    var url = parentURL+"/newevent/"+dateformat
+                    window.open(url,"_self");
+                },
+            {% comment %} Make day box clickable {% endcomment %}
+            dateClick: function(info) {
+                var date = info.dateStr;
+                var dateReplace = date.replace(/-/gi, "/");
+                var parentURL = document.location.origin;
+                var url = parentURL+"/newevent/"+dateReplace
+                window.open(url,"_self");
+            },
+            eventClick: function(info) {
+                var eventObj = info.event;
+                if (eventObj.url) {
+                    var parentURL = document.location.origin;
+                    var eventURL= eventObj.url
+                    var url = parentURL+eventURL
+                   
+                    window.open(url,"_self");
+                    // prevents browser from following link in current tab.
+                    info.jsEvent.preventDefault(); 
+                }
+            },
+                  
+            {% comment %} Add custom button to navbar {% endcomment %}
+            customButtons: {
+                myCustomButton: {
+                text: 'Añadir horas de trabajo',
+                click: function() {
+                        var parentURL = document.location.origin;
+                        var url = parentURL+"/newevent/"
+                        window.open(url,"_self");
+                    }
+                }
+            },
+            {% comment %} Modify header of calendar {% endcomment %}
+            headerToolbar:{
+                left:'prev myCustomButton',
+                center: 'title',
+                right: 'next today'
+            },
+            events:[
+                {% for evento in eventos %}
+                    {
+                         title: '{{evento.title}}',
+                         start: '{{evento.booking_date | date:"Y-m-d" }}',
+                         end: '{{evento.booking_date | date:"Y-m-d"}}',
+                         url: '/event/{{evento.id }}',
+                    },
+                {% endfor %}
+            ]
+        });
+        calendar.render();
+        
+        {% comment %} change language {% endcomment %}
+        calendar.setOption('locale','es');
+        
+    })
+</script>
+{% endblock %}
+
+
+
